@@ -1,0 +1,72 @@
+/* Base styles */
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height:  100vh;
+    margin:  0;
+    font-family: 'Roboto', sans-serif;
+    background-image: url('./img/watch-tower-day.jpg');
+    background-size: cover;
+}
+
+.board-column {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+.board-column > div {
+    flex:  1;
+    min-height:  50vh;
+    width:  30vh;
+    margin:  10px;
+    padding:  10px;
+    border:  2px solid #000;
+    background-color: #fff;
+    border-radius:  10px;
+    text-align: center;
+    overflow: hidden;
+    overflow-y: auto;
+    max-height:  50vh;
+}
+
+.todo-form {
+    display: flex;
+    align-items: center;
+}
+
+.todo-form input[type='text'] {
+    flex:  1;
+    margin-right:  5px;
+    background-color: #fff;
+}
+
+.submit-button {
+    background-image: url('./img/add-button.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    border: none;
+    width:  22px;
+    height:  22px;
+    cursor: pointer;
+    background-color: #fff;
+}
+
+p {
+    border:  1px solid #000;
+    border-radius:  10px;
+}
+
+.board-column > div p {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    max-width: calc(100% -  20px);
+    padding:  5px;
+    border:  1px solid #ccc;
+    margin-bottom:  10px;
+}
+
+.board-column > div p:first-child {
+    padding-top:  20px;
+}
