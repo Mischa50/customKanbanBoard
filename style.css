@@ -1,34 +1,64 @@
 /* Base styles */
 body {
     display: flex;
-    justify-content: center;
-    align-items: center;
-    height:  100vh;
-    margin:  0;
+    flex-direction: column;
+    height: 100vh;
+    margin: 0;
     font-family: 'Roboto', sans-serif;
-    background-image: url('./img/watch-tower-day.jpg');
+    background-image: url('./img/pink.jpg');
     background-size: cover;
 }
 
+h1 {
+    font-size: 4vh;
+}
+
+.trash-can {
+    height: 6vh;
+    width: auto;
+    margin-left: 16vh;
+}
+
+/* Menu Bar Styles */
+.menu-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+}
+
+.logo {
+    margin-left: 2%;
+}
+
+.signup {
+    margin-right: 2%;
+    text-decoration: none;
+    color: #000;
+}
+
 .board-column {
+    margin: 10vh auto 50vh auto; /* 40vh top, auto right/left, 50vh bottom, auto right/left */
     display: flex;
     justify-content: space-around;
+    align-items: center; /* Center vertically */
     flex-wrap: wrap;
+    flex-grow: 1; /* Allow the board column to grow and fill available space */
 }
 
 .board-column > div {
-    flex:  1;
-    min-height:  50vh;
-    width:  30vh;
-    margin:  10px;
-    padding:  10px;
-    border:  2px solid #000;
+    flex: 1;
+    min-height: 50vh;
+    width: 30vh;
+    margin: 10px;
+    padding: 10px;
+    border: 2px solid #000;
     background-color: #fff;
-    border-radius:  10px;
+    border-radius:20px;
     text-align: center;
     overflow: hidden;
     overflow-y: auto;
-    max-height:  50vh;
+    max-height: 50vh;
 }
 
 .todo-form {
@@ -37,9 +67,13 @@ body {
 }
 
 .todo-form input[type='text'] {
-    flex:  1;
-    margin-right:  5px;
+    flex: 1;
+    margin-right: 5px;
     background-color: #fff;
+    border: 2px solid #333;
+    border-radius: 0.8rem; /* Rounded corners */
+    outline: none;
+    transition: border-color 0.3s ease; /* Smooth transition for the animation */
 }
 
 .submit-button {
@@ -47,26 +81,46 @@ body {
     background-size: cover;
     background-repeat: no-repeat;
     border: none;
-    width:  22px;
-    height:  22px;
+    width: 22px;
+    height: 22px;
     cursor: pointer;
     background-color: #fff;
 }
 
 p {
-    border:  1px solid #000;
-    border-radius:  10px;
+    border: 1px solid #000;
+    border-radius: 10px;
 }
 
 .board-column > div p {
     word-wrap: break-word;
     overflow-wrap: break-word;
-    max-width: calc(100% -  20px);
-    padding:  5px;
-    border:  1px solid #ccc;
-    margin-bottom:  10px;
+    max-width: calc(100% - 20px);
+    padding: 5px;
+    border: 1px solid #ccc;
+    margin-bottom: 10px;
 }
 
 .board-column > div p:first-child {
-    padding-top:  20px;
+    padding-top: 20px;
+}
+
+/* Style for the input used during inline editing */
+.task-item input {
+    width: 100%;
+    box-sizing: border-box;
+    border: none;
+    outline: none;
+    padding: 5px;
+    font-family: inherit;
+    font-size: inherit;
+}
+
+.signup a,
+.logo a {
+    text-decoration: none; /* Remove underline */
+}
+.signup a:visited,
+.logo a:visited {
+    color: #000; /* Ensure the color remains black after being visited */
 }
