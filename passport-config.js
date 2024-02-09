@@ -1,29 +1,53 @@
-const LocalStrategy = require('passport-local').Strategy
-const bcrypt = require('bcrypt')
+const LocalStrategy = require('passport-local').Strategy;
+const bcrypt = require('bcrypt');
+const mysql = require('mysql');
 
-function initialize(passport, getUserByEmail, getUserById) {
+// Assuming you have a mysql connection pool already configured
+const pool = mysql.createPool({
+    connectionLimit:  10,
+    host           : 'localhost',
+    port           :  6033,
+    user           : 'admin',
+    password       : '12345',
+    database       : 'kanbanDB'
+});
+
+function initialize(passport, getUserByEmail) {
   const authenticateUser = async (email, password, done) => {
-    const user = getUserByEmail(email)
-    if (user == null) {
-      return done(null, false, { message: 'No user with that email' })
-    }
-
     try {
+      const user = await getUserByEmail(email);
+      if (!user) {
+        return done(null, false, { message: 'No user with that email' });
+      }
+
       if (await bcrypt.compare(password, user.password)) {
-        return done(null, user)
+        return done(null, user);
       } else {
-        return done(null, false, { message: 'Password incorrect' })
+        return done(null, false, { message: 'Password incorrect' });
       }
     } catch (e) {
-      return done(e)
+      return done(e);
     }
-  }
+  };
 
-  passport.use(new LocalStrategy({ usernameField: 'email' }, authenticateUser))
-  passport.serializeUser((user, done) => done(null, user.id))
+  passport.use(new LocalStrategy({ usernameField: 'email' }, authenticateUser));
+
+  passport.serializeUser((user, done) => done(null, user.id));
+
   passport.deserializeUser((id, done) => {
-    return done(null, getUserById(id))
-  })
+    const sqlSelect = 'SELECT * FROM user WHERE id = ?';
+    pool.query(sqlSelect, [id], (error, results) => {
+      if (error) {
+        return done(error);
+      }
+      // Assuming the user exists in the database
+      if (results && results.length >  0) {
+        return done(null, results[0]);
+      } else {
+        return done(new Error('User not found'));
+      }
+    });
+  });
 }
 
-module.exports = initialize
+module.exports = initialize;

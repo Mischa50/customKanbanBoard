@@ -1,7 +1,10 @@
+<div class="login-container">
 <h1>Login</h1>
 <% if (messages.error) { %>
   <%= messages.error %>
 <% } %>
+<link rel="stylesheet" href="/login.css">
+<div class="login.container">
 <form action="/login" method="POST">
   <div>
     <label for="email">Email</label>
@@ -13,4 +16,6 @@
   </div>
   <button type="submit">Login</button>
 </form>
+</div>
 <a href="/register">Register</a>
+</div>
