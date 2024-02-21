@@ -8,6 +8,7 @@ function handleFormSubmit(event) {
     const taskData = {
         id: taskId,
         content: inputValue,
+        columnNumber: this.id
     };
     saveTaskToDatabase(taskData);
     const listItem = document.createElement('p');
@@ -118,7 +119,9 @@ function handleTrashClick() {
     }
 }
 
+
 trashCan.addEventListener('click', handleTrashClick);
+
 
 async function saveTaskToDatabase(taskData) {
     try {
@@ -139,10 +142,12 @@ async function saveTaskToDatabase(taskData) {
     }
 }
 
+
+
 async function loadTasks() {
     try {
         const response = await fetch('/api/tasks', {
-            credentials: 'include', // Stellen Sie sicher, dass Cookies gesendet werden
+            credentials: 'include',
             headers: {
                 'Content-Type': 'application/json'
             }
@@ -157,16 +162,19 @@ async function loadTasks() {
             listItem.setAttribute('draggable', 'true');
             listItem.textContent = task.content;
             listItem.id = task.id;
-            const column = document.querySelector('#backlog'); // oder ein anderer Container, je nachdem, wo Sie die Aufgaben anzeigen möchten
-            column.appendChild(listItem);
-            listItem.addEventListener('dragstart', handleDragStart);
-            listItem.addEventListener('dblclick', function () {
-                toggleEditMode(listItem);
-            });
+            const column = document.querySelector(`.board-column > div[id="${task.column_number}"]`);
+            if (column) {
+                column.appendChild(listItem);
+                listItem.addEventListener('dragstart', handleDragStart);
+                listItem.addEventListener('dblclick', function () {
+                    toggleEditMode(listItem);
+                });
+            }
         });
     } catch (error) {
         console.error('Error loading tasks:', error);
     }
 }
+
 
 window.onload = loadTasks;

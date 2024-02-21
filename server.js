@@ -107,8 +107,9 @@ app.post('/tasks', checkAuthenticated, (req, res) => {
   const content = req.body.content;
   // Perform database insertion with the logged-in user's ID
   const userId = req.user.id;
-  const sqlInsert = 'INSERT INTO tasks (user_id, content) VALUES (?, ?)';
-  pool.query(sqlInsert, [userId, content], (error, results) => {
+  const columnNumber = Number(req.body.columnNumber);
+  const sqlInsert = 'INSERT INTO tasks (user_id, content, column_number) VALUES (?, ?, ?)';
+  pool.query(sqlInsert, [userId, content, columnNumber], (error, results) => {
       if (error) {
           console.error('Error saving task:', error);
           res.status(500).send('Error saving task');
@@ -136,6 +137,8 @@ app.delete('/logout', (req, res) => {
   req.logOut();
   res.redirect('/login');
 });
+
+
 
 function checkAuthenticated(req, res, next) {
   if (req.isAuthenticated()) {
