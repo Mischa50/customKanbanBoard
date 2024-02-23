@@ -133,12 +133,27 @@ app.get('/api/tasks', checkAuthenticated, (req, res) => {
   });
 });
 
+// Add an endpoint to update the column_number of a task
+app.put('/tasks/:id', checkAuthenticated, (req, res) => {
+  console.log(req.params.id)
+  const taskId = req.params.id;
+  const newColumnNumber = req.body.column_number;
+  const userId = req.user.id;
+  const sqlUpdate = 'UPDATE tasks SET column_number = ? WHERE id = ? AND user_id = ?';
+  pool.query(sqlUpdate, [newColumnNumber, taskId, userId], (error, results) => {
+      if (error) {
+          console.error('Error updating task column number:', error);
+          res.status(500).send('Error updating task column number');
+      } else {
+          res.status(200).send('Task column number updated successfully');
+      }
+  });
+});
+
 app.delete('/logout', (req, res) => {
   req.logOut();
   res.redirect('/login');
 });
-
-
 
 function checkAuthenticated(req, res, next) {
   if (req.isAuthenticated()) {
@@ -160,5 +175,35 @@ app.get('/', checkAuthenticated, (req, res) => {
   // Pass the user object to the view
   res.render('index.html', { user: req.user });
 });
+
+// Add an endpoint to delete all tasks for the authenticated user
+app.delete('/tasks/delete-all', checkAuthenticated, (req, res) => {
+  const userId = req.user.id;
+  const sqlDelete = 'DELETE FROM tasks WHERE user_id = ?';
+  pool.query(sqlDelete, [userId], (error, results) => {
+      if (error) {
+          console.error('Error deleting all tasks:', error);
+          res.status(500).send('Error deleting all tasks');
+      } else {
+          res.status(200).send('All tasks deleted successfully');
+      }
+  });
+});
+
+// Add an endpoint to delete a single task for the authenticated user
+app.delete('/tasks/:id', checkAuthenticated, (req, res) => {
+  const taskId = req.params.id;
+  const userId = req.user.id;
+  const sqlDelete = 'DELETE FROM tasks WHERE id = ? AND user_id = ?';
+  pool.query(sqlDelete, [taskId, userId], (error, results) => {
+      if (error) {
+          console.error(`Error deleting task ${taskId}:`, error);
+          res.status(500).send(`Error deleting task ${taskId}`);
+      } else {
+          res.status(200).send(`Task ${taskId} deleted successfully`);
+      }
+  });
+});
+
 
 app.listen(3000);
