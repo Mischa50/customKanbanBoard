@@ -1,3 +1,11 @@
+/* 
+Author: Mischa Barmettler
+Date: 23.02.2024
+Version: 1.0
+Description: Kanban-Board
+*/
+
+
 if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config();
 }

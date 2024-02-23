@@ -1,3 +1,11 @@
+/* 
+Author: Mischa Barmettler
+Date: 23.02.2024
+Version: 1.0
+Description: Kanban-Board
+*/
+
+
 const LocalStrategy = require('passport-local').Strategy;
 const bcrypt = require('bcrypt');
 const mysql = require('mysql');

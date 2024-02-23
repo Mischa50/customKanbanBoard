@@ -1,3 +1,11 @@
+/* 
+Author: Mischa Barmettler
+Date: 23.02.2024
+Version: 1.0
+Description: Kanban-Board
+*/
+
+
 const todoForms = document.querySelectorAll('.todo-form');
 
 function handleFormSubmit(event) {
